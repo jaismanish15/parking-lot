@@ -50,3 +50,28 @@ func TestParkingAttendantCanParkCar(t *testing.T) {
 		t.Errorf("Invalid slot number: %d", slotNumber)
 	}
 }
+
+func TestParkingAttendantCanUnparkCar(t *testing.T) {
+	ParkingAttendant := NewParkingAttendant()
+	ParkingLot, _ := NewParkingLot(5)
+	ParkingAttendant.AssignParkingLot(ParkingLot)
+
+	car := &Car{
+		registrationNumber: "AB12BC1234",
+		color:              RED,
+	}
+
+	slotNumber, err := ParkingAttendant.Park(car)
+	if err != nil {
+		t.Fatalf("Error parking car: %v", err)
+	}
+
+	unparkedCar, err := ParkingAttendant.Unpark(slotNumber, "AB12BC1234")
+	if err != nil {
+		t.Fatalf("Error unparking car: %v", err)
+	}
+
+	if unparkedCar != car {
+		t.Error("Unparked car does not match the parked car.")
+	}
+}

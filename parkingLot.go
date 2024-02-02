@@ -67,17 +67,17 @@ func (p *ParkingLot) checkForSameCarParked(car *Car) error {
 	}
 	return nil
 }
+func (pl *ParkingLot) Unpark(slot int, registrationNumber string) (*Car, error) {
 
-func (p *ParkingLot) Unpark(slotNumber int) error {
-	if slotNumber <= 0 || slotNumber > p.Capacity {
-		return errors.New("Invalid slot number")
+	if slot <= 0 || slot > pl.Capacity {
+		return nil, errors.New("Invalid slot number")
 	}
 
-	if p.Slots[slotNumber] == nil {
-		return errors.New("No car parked at the specified slot")
+	car := pl.Slots[slot]
+	if car != nil && car.registrationNumber == registrationNumber {
+		pl.Slots[slot] = nil
+		return car, nil
 	}
 
-	p.Slots[slotNumber] = nil
-	p.IsFull = false
-	return nil
+	return nil, errors.New("Car not found. Thus, cannot be unparked")
 }

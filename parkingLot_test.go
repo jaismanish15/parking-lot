@@ -112,7 +112,7 @@ func TestUnparkCar(t *testing.T) {
 	}
 
 	// unparking same car
-	err = parkingLot.Unpark(slotNumber)
+	_, err = parkingLot.Unpark(slotNumber, "AB12BC1236")
 	if err != nil {
 		t.Errorf("Unexpected error when unparking car: %v", err)
 	}
@@ -128,7 +128,7 @@ func TestUnparkCarWithInvalidSlotNumber(t *testing.T) {
 		t.Fatalf("Error creating parking lot: %v", err)
 	}
 
-	err = parkingLot.Unpark(0)
+	_, err = parkingLot.Unpark(0, "AB12BC1236")
 
 	if err == nil {
 		t.Error("Expected an error for invalid slot number, but got nil.")

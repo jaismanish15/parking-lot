@@ -24,6 +24,16 @@ func (pa *ParkingAttendant) Park(car *Car) (int, error) {
 			return slotNumber, nil
 		}
 	}
-
 	return 0, errors.New("All assigned parking lots are full")
+}
+
+func (pa *ParkingAttendant) Unpark(slotNumber int, registrationNumber string) (*Car, error) {
+	for _, parkingLot := range pa.assignedParkingLots {
+		unparkedCar, err := parkingLot.Unpark(slotNumber, registrationNumber)
+		if err == nil {
+			return unparkedCar, nil
+		}
+	}
+
+	return nil, errors.New("Car not found in any assigned parking lot")
 }
